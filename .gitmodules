@@ -1,3 +1,0 @@
-[submodule "dbtool"]
-	path = ./cmd/dbtool
-	url = https://github.com/br0xen/boltbrowser
