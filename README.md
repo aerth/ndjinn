@@ -281,14 +281,14 @@ Read from the database:
 
 ~~~ go
 result := User{}
-err := database.DB.Get(&result, "SELECT id, password, status_id, first_name FROM user WHERE email = ? LIMIT 1", email)
+err := database.DB.Get(&result, "SELECT id, password, status_id, nickname FROM user WHERE email = ? LIMIT 1", email)
 return result, err
 ~~~
 
 Write to the database:
 
 ~~~ go
-_, err := database.DB.Exec("INSERT INTO user (first_name, last_name, email, password) VALUES (?,?,?,?)", first_name, last_name, email, password)
+_, err := database.DB.Exec("INSERT INTO user (nickname, last_name, email, password) VALUES (?,?,?,?)", nickname, last_name, email, password)
 return err
 ~~~
 

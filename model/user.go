@@ -18,8 +18,8 @@ import (
 // User table contains the information for each user
 type User struct {
 	ObjectId   bson.ObjectId `bson:"_id"`
-	Id         uint32        `db:"id" bson:"id,omitempty"` // Don't use Id, use ID() instead for consistency with MongoDB
-	First_name string        `db:"first_name" bson:"first_name"`
+	MembershipLevel MembershipLevel    `db:"membership" bson:"membership"`
+	NickName string        `db:"nickname" bson:"nickname"`
 	Last_name  string        `db:"last_name" bson:"last_name"`
 	Email      string        `db:"email" bson:"email"`
 	Password   string        `db:"password" bson:"password"`
@@ -27,7 +27,7 @@ type User struct {
 	Created_at time.Time     `db:"created_at" bson:"created_at"`
 	Updated_at time.Time     `db:"updated_at" bson:"updated_at"`
 	Deleted    uint8         `db:"deleted" bson:"deleted"`
-	Membership Membership    `db:"membership" bson:"membership"`
+
 }
 
 // User_status table contains every possible user status (active/inactive)
@@ -37,7 +37,7 @@ type User_status struct {
 	Created_at time.Time `db:"created_at" bson:"created_at"`
 	Updated_at time.Time `db:"updated_at" bson:"updated_at"`
 	Deleted    uint8     `db:"deleted" bson:"deleted"`
-	Membership uint8     `db:"membership" bson:"membership"`
+	MembershipLevel uint8     `db:"membership" bson:"membership"`
 }
 
 var (
@@ -46,10 +46,10 @@ var (
 	ErrUnavailable = errors.New("Database is unavailable.")
 )
 
-type Membership int
+type MembershipLevel int
 
 const (
-	NewMember Membership = iota
+	NewMember MembershipLevel = iota
 	PaidMember
 	SuperMember
 	Moderator
@@ -98,7 +98,7 @@ func UserByEmail(email string) (User, error) {
 }
 
 // UserCreate creates user
-func UserCreate(first_name, last_name, email, password string) error {
+func UserCreate(nickname, last_name, email, password string) error {
 	var err error
 
 	now := time.Now()
@@ -108,11 +108,11 @@ func UserCreate(first_name, last_name, email, password string) error {
 	case database.TypeBolt:
 		user := &User{
 			ObjectId:   bson.NewObjectId(),
-			First_name: first_name,
+			NickName: nickname,
 			Last_name:  last_name,
 			Email:      email,
 			Password:   password,
-			Membership: NewMember,
+			MembershipLevel: NewMember,
 			Status_id:  1,
 			Created_at: now,
 			Updated_at: now,
@@ -137,7 +137,7 @@ func UserPromote(user User) error {
 	case database.TypeBolt:
 		usernew := &User{
 
-			Membership: PaidMember,
+			MembershipLevel: PaidMember,
 			Updated_at: now,
 		}
 

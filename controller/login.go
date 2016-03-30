@@ -91,7 +91,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 			sess.AddFlash(view.Flash{"Login successful!", view.FlashSuccess})
 			sess.Values["id"] = result.ID()
 			sess.Values["email"] = email
-			sess.Values["first_name"] = result.First_name
+			sess.Values["nickname"] = result.NickName
 
 			sess.Save(r, w)
 			http.Redirect(w, r, "/dashboard", http.StatusFound)

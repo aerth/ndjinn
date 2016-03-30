@@ -19,7 +19,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		v := view.New(r)
 
 		v.Name = "index/auth"
-		v.Vars["first_name"] = session.Values["first_name"]
+		v.Vars["nickname"] = session.Values["nickname"]
 		v.Render(w)
 	} else {
 

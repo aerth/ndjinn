@@ -12,15 +12,15 @@ import (
 // User table contains the information for each user
 type User struct {
 	ObjectId   bson.ObjectId `bson:"_id"`
-	First_name string        `db:"first_name" bson:"first_name"`
-	Last_name  string        `db:"last_name" bson:"last_name"`
+	MembershipLevel uint8         `db:"membership" bson:"membership"`
+	NickName string        `db:"nickname" bson:"nickname"`
 	Email      string        `db:"email" bson:"email"`
 	Password   string        `db:"password" bson:"password"`
 	Status_id  uint8         `db:"status_id" bson:"status_id"`
 	Created_at time.Time     `db:"created_at" bson:"created_at"`
 	Updated_at time.Time     `db:"updated_at" bson:"updated_at"`
 	Deleted    uint8         `db:"deleted" bson:"deleted"`
-	Membership uint8         `db:"membership" bson:"membership"`
+
 }
 
 var (
@@ -54,14 +54,14 @@ func UserByEmail(email string) (User, error) {
 }
 
 // UserCreate creates user
-func UserCreate(first_name, last_name, email, password string) error {
+func UserCreate(nickname, last_name, email, password string) error {
 	var err error
 
 	now := time.Now()
 
 	user := &User{
 		ObjectId:   bson.NewObjectId(),
-		First_name: first_name,
+		NickName: nickname,
 		Last_name:  last_name,
 		Email:      email,
 		Password:   password,
@@ -69,7 +69,7 @@ func UserCreate(first_name, last_name, email, password string) error {
 		Created_at: now,
 		Updated_at: now,
 		Deleted:    0,
-		Membership: 0,
+		MembershipLevel: 0,
 	}
 
 	err = database.Update("user", user.Email, &user)
@@ -79,14 +79,14 @@ func UserCreate(first_name, last_name, email, password string) error {
 }
 
 // UserCreate creates user
-func UserPromote(first_name, last_name, email, password string, createdtime time.Time) error {
+func UserPromote(nickname, last_name, email, password string, createdtime time.Time) error {
 	var err error
 
 	now := time.Now()
 
 	user := &User{
 		ObjectId:   bson.NewObjectId(),
-		First_name: first_name,
+		NickName: nickname,
 		Last_name:  last_name,
 		Email:      email,
 		Password:   password,
@@ -94,7 +94,7 @@ func UserPromote(first_name, last_name, email, password string, createdtime time
 		Created_at: now,
 		Updated_at: now,
 		Deleted:    0,
-		Membership: 0,
+		MembershipLevel: 0,
 	}
 
 	err = database.Update("user", user.Email, &user)

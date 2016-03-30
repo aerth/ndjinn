@@ -20,7 +20,7 @@ func DashboardGET(w http.ResponseWriter, r *http.Request) {
 		v := view.New(r)
 		v.Name = "dashboard/index"
 
-		v.Vars["first_name"] = session.Values["first_name"]
+		v.Vars["nickname"] = session.Values["nickname"]
 		v.Vars["email"] = session.Values["email"]
 		v.Vars["token"] = csrfbanana.Token(w, r, session)
 		v.Render(w)
@@ -51,7 +51,7 @@ func DashboardAsyncGET(w http.ResponseWriter, r *http.Request) {
 		v := view.New(r)
 		v.Name = "dashboard/async/newlisting"
 
-		v.Vars["first_name"] = session.Values["first_name"]
+		v.Vars["nickname"] = session.Values["nickname"]
 		v.Vars["email"] = session.Values["email"]
 		v.Vars["token"] = csrfbanana.Token(w, r, session)
 		v.Render(w)

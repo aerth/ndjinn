@@ -3,9 +3,9 @@
 {{define "content"}}
 <div class="container">
 	<div class="page-header">
-		<h1>Hello, {{.first_name}}</h1>
+		<h1>Hello, {{.nickname}}</h1>
 	</div>
-	<p>Dashboard. You are a {{.LoginStatus}} member. {{.Membership}}</p>
+	<p>Dashboard. You are a {{.LoginStatus}} member. {{.MembershipLevel}}</p>
 	<div class="medium-4 columns">
 		<h3>New Listing</h3>
 	<form method="post" action="/api">

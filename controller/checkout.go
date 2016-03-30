@@ -4,7 +4,7 @@ import (
 	"github.com/aerth/ndjinn/components/checkout"
 	"github.com/aerth/ndjinn/components/session"
 	"github.com/aerth/ndjinn/components/view"
-	"github.com/aerth/ndjinn/model"
+//	"github.com/aerth/ndjinn/model"
 	"fmt"
 	"log"
 	"net/http"
@@ -30,7 +30,7 @@ func CheckoutGETOLD(w http.ResponseWriter, r *http.Request) {
 	v.Name = "dashboard/index"
 	v.Vars["token"] = csrfbanana.Token(w, r, sess)
 	// Refill any form fields
-	view.Repopulate([]string{"first_name", "last_name", "email"}, r.Form, v.Vars)
+	view.Repopulate([]string{"nickname", "email"}, r.Form, v.Vars)
 
 	v.Render(w)
 }
@@ -41,7 +41,9 @@ func init() {
 func CheckoutGET(w http.ResponseWriter, r *http.Request) {
 	//var buf bytes.Buffer
 	now := time.Now()
+
 	nowtime := now.Format("Mon, 2 Jan 2006 15:04:05 -0700")
+		v := view.New(r)
 	sess := session.Instance(r)
 	sess.Save(r, w) // Ensure you save the session after making a change to it
 
@@ -85,7 +87,7 @@ func CheckoutGET(w http.ResponseWriter, r *http.Request) {
 	redirectURI := v.BaseURI + "checkout/confirm"
 	cancelURI := v.BaseURI + "checkout/cancel"
 
-	description := "Membership (one year) for " + nowtime
+	description := "MembershipLevel (one year) for " + nowtime
 	log.Println(description)
 	paymentResult, err := c.CreateDirectPaypalPayment(amount, redirectURI, cancelURI, description)
 	/*
