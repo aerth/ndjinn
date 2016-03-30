@@ -2,7 +2,7 @@
 	"Database": {
 		"Type": "Bolt",
 		"Bolt": {
- 			"Path": "database.db"
+ 			"Path": "database/database.db"
   		}
 
 	},
