@@ -1,0 +1,38 @@
+{{define "menu-right"}}
+
+{{if eq .LoginStatus "auth"}}
+
+<ul class="menu" data-responsive-menu="accordion">
+  <li><a href="{{.BaseURI}}dashboard"  class="button">Dashboard</a></li>
+
+  <li><a href="{{.BaseURI}}logout"  class="button">Logout</a></li>
+</ul>
+
+{{else}}
+
+<ul class="menu" data-responsive-menu="accordion">
+  <li><a href="{{.BaseURI}}register" class="button success">Sign Up</a></li>
+    <li><a href="{{.BaseURI}}login" class="button">Login</a></li>
+</ul>
+
+{{end}}
+{{end}}
+{{define "menu-left"}}
+
+{{if eq .LoginStatus "auth"}}
+
+<ul class="menu" data-responsive-menu="accordion">
+  <li><a href="{{.BaseURI}}dashboard"  class="button">Dashboard</a></li>
+
+  <li><a href="{{.BaseURI}}logout"  class="button">Logout</a></li>
+</ul>
+
+{{else}}
+
+<ul class="menu" data-responsive-menu="accordion">
+  <li><a href="{{.BaseURI}}register" class="button success">Sign Up</a></li>
+    <li><a href="{{.BaseURI}}login" class="button">Login</a></li>
+</ul>
+
+{{end}}
+{{end}}

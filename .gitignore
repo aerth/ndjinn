@@ -1,0 +1,6 @@
+*.db
+cmd/ndjinn/config/config.json
+cmd/dbtool
+cmd/ndjinn/ndjinn
+cmd/ndjinn/backups/*
+cmd/ndjinn/logs/*

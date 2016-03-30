@@ -1,0 +1,16 @@
+{{define "title"}}{{.GlobalSiteName}}{{end}}
+{{define "head"}}{{end}}
+{{define "content"}}
+
+	<div class="medium-4 columns">
+		<h3>New Listing</h3>
+	<form method="post" action="/api">
+		<input id="email" name="email" placeholder="{{.Email}}">
+		<input id="phone" name="phone" placeholder="phone">
+		<input type="hidden" name="token" value="{{.token}}">
+		<input type="hidden" name="request" value="newListing">
+		<textarea id="c" name="c">What makes ___ _____</textarea>
+		<input type="submit" class="button">
+	</form>
+</div>
+{{end}}

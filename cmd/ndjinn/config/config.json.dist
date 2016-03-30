@@ -1,0 +1,60 @@
+{
+	"Database": {
+		"Type": "Bolt",
+		"Bolt": {
+ 			"Path": "database.db"
+  		}
+
+	},
+	"Email": {
+		"Username": "",
+		"Password": "",
+		"Hostname": "",
+		"Port": 25,
+		"From": ""
+	},
+	"Recaptcha": {
+		"Enabled": false,
+		"Secret": "",
+		"SiteKey": ""
+	},
+	"Server": {
+		"Hostname": "localhost",
+		"UseHTTP": true,
+		"UseHTTPS": false,
+		"HTTPPort": 8080,
+		"HTTPSPort": 443,
+		"CertFile": "tls/server.crt",
+		"KeyFile": "tls/server.key"
+	},
+	"Session": {
+		"SecretKey": "@r4B?EThkSEh_drudkjh_hub=j#s2Pah",
+		"Name": "cookie",
+		"Options": {
+			"Path": "/",
+			"Domain": "",
+			"MaxAge": 280,
+			"Secure": false,
+			"HttpOnly": true
+		}
+	},
+	"Checkout": {
+		"PayPalC": "Changeme",
+		"PayPalK": "Secret"
+	},
+	"Template": {
+		"Root": "base",
+		"Children": [
+			"partial/menu",
+			"partial/footer"
+		]
+	},
+	"View": {
+		"GlobalSiteName": "ndjinn",
+		"BaseURI": "http://localhost:8080/",
+		"Extension": "tmpl",
+		"Folder": "template",
+		"Name": "blank",
+		"Caching": true
+	}
+}
