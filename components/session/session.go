@@ -40,3 +40,12 @@ func Empty(sess *sessions.Session) {
 		delete(sess.Values, k)
 	}
 }
+
+func (s *Session) NotifyAll(message string){
+
+}
+func NotifyUsers(message string){
+// Do the real notify
+
+
+}

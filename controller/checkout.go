@@ -107,10 +107,11 @@ func CheckoutGET(w http.ResponseWriter, r *http.Request) {
 	*/
 
 	//http.Redirect(w, r, paymentResult.Links[1].Href, 302)
+	if len(paymentResult.Links) > 2 {
 	fmt.Fprintf(w, "<!DOCTYPE html><html><a href=\""+paymentResult.Links[1].Href+"\">Click here to use PayPal ($ 10)</a></html>")
-
 	log.Println("Redirecting " + r.RemoteAddr + paymentResult.ID + paymentResult.Links[1].Href)
-
+	}
+	return
 }
 
 func CheckoutConfirm(w http.ResponseWriter, r *http.Request) {

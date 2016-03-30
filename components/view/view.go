@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
-
+  "github.com/GeertJohan/go.rice"
 	"github.com/aerth/ndjinn/components/session"
 )
 
@@ -257,6 +257,8 @@ func (v *View) Render(w http.ResponseWriter) {
 		for i, name := range templateList {
 			// Get the absolute path of the root template
 			path, err := filepath.Abs(v.Folder + string(os.PathSeparator) + name + "." + v.Extension)
+
+			//path, err := filepath.Abs(v.Folder + string(os.PathSeparator) + name + "." + v.Extension)
 			if err != nil {
 				http.Error(w, "Template Path Error: "+err.Error(), http.StatusInternalServerError)
 				return
@@ -375,3 +377,30 @@ func FileTime(name string) (string, error) {
 	mtime := fi.ModTime().Unix()
 	return fmt.Sprintf("%v", mtime), nil
 }
+
+
+
+
+
+type TemplateLunchbox struct {
+  box *rice.Box
+}
+
+func NewTemplateLoader() (*TemplateLunchbox, error) {
+fs := &TemplateLunchbox{}
+  found, err := rice.FindBox("templates")
+  if err != nil {
+    return nil, err
+  }
+  fs.box = found
+  return fs, nil
+}
+
+
+//
+//
+// // get file contents as string
+// _, err := templateBox.String(tmpl)
+// if err != nil {
+//     log.Fatal(err)
+// }

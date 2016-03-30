@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"github.com/fvbock/endless"
 )
 
 // Server stores the hostname and port number
@@ -37,10 +38,14 @@ func Run(httpHandlers http.Handler, httpsHandlers http.Handler, s Server) {
 
 // startHTTP starts the HTTP listener
 func startHTTP(handlers http.Handler, s Server) {
-	fmt.Println(time.Now().Format("2006-01-02 03:04:05 PM"), "- Running http://"+httpAddress(s))
+	log.Println("Info: Listening at http://"+httpAddress(s))
 
 	// Start the HTTP listener
-	log.Fatal(http.ListenAndServe(httpAddress(s), handlers))
+	err := (endless.ListenAndServe(httpAddress(s), handlers))
+	if err != nil {
+		log.Println(err)
+	}
+	log.Fatal("Server on 4242 stopped")
 }
 
 // startHTTPs starts the HTTPS listener
@@ -48,7 +53,7 @@ func startHTTPS(handlers http.Handler, s Server) {
 	fmt.Println(time.Now().Format("2006-01-02 03:04:05 PM"), "- Running https://"+httpsAddress(s))
 
 	// Start the HTTPS listener
-	log.Fatal(http.ListenAndServeTLS(httpsAddress(s), s.CertFile, s.KeyFile, handlers))
+	log.Fatal(endless.ListenAndServeTLS(httpsAddress(s), s.CertFile, s.KeyFile, handlers))
 }
 
 // httpAddress returns the HTTP address

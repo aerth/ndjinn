@@ -104,8 +104,12 @@ func routes() *httprouter.Router {
 
 	// Dashboard
 	r.GET("/dashboard", hr.Handler(alice.
-		New().
+		New(acl.DisallowAnon).
 		ThenFunc(controller.DashboardGET)))
+	// Dashboard
+	r.GET("/dashboard/paid", hr.Handler(alice.
+		New(acl.AllowPaid).
+		ThenFunc(controller.MemberDashboardGET)))
 	// Dashboard
 	r.POST("/api", hr.Handler(alice.
 		New().
@@ -129,7 +133,7 @@ func middleware(h http.Handler) http.Handler {
 	cs.FailureHandler(http.HandlerFunc(controller.InvalidToken))
 	cs.ClearAfterUsage(true)
 	cs.ExcludeRegexPaths([]string{"/static(.*)"})
-	cs.ExcludeRegexPaths([]string{"/api(.*)"})
+	cs.ExcludeRegexPaths([]string{"/api(.*)"}) // ?
 	csrfbanana.TokenLength = 32
 	csrfbanana.TokenName = "token"
 	csrfbanana.SingleToken = false

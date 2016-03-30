@@ -3,7 +3,9 @@ package database
 import (
 	"encoding/json"
 	"log"
-
+	"fmt"
+"time"
+"os"
 	"github.com/boltdb/bolt"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -41,8 +43,14 @@ func Connect(d DatabaseInfo) {
 
 	case TypeBolt:
 		// Connect to Bolt
-		if BoltDB, err = bolt.Open(d.Bolt.Path, 0600, nil); err != nil {
-			log.Println("Bolt Driver Error", err)
+		if BoltDB, err = bolt.Open(d.Bolt.Path, 0600, &bolt.Options{Timeout: 1 * time.Second}); err != nil {
+			if err.Error() == "timeout" {
+			fmt.Printf("\n")
+			log.Println("Bolt Driver Error (", err.Error(), ")")
+			log.Fatal("Another "+os.Args[0]+" instance may be using "+d.Bolt.Path)
+			}
+			log.Fatal("Bolt Driver Error (", err.Error(), ")")
+
 		}
 
 	default:

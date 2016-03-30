@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	//"github.com/aerth/ndjinn/components/database"
 	"github.com/boltdb/bolt"
 	"github.com/yosssi/boltstore/reaper"
 )
@@ -24,7 +25,12 @@ func BackupDB() (bool, error) {
 	now := time.Now()
 	now.Format(time.UnixDate)
 	nowtime := strings.Replace(now.String(), " ", "", -1)
+	_ = os.Mkdir("backups", 0700)
 	err := copyFileContents("database.db", "backups/latest.db")
+	if err != nil {
+		return false, err
+	}
+	err = os.Chmod("backups/latest.db", 0600)
 	if err != nil {
 		return false, err
 	}
@@ -32,15 +38,19 @@ func BackupDB() (bool, error) {
 	if err != nil {
 		return false, err
 	}
+	err = os.Chmod("backups/database.db"+string(nowtime), 0600)
+	if err != nil {
+		return false, err
+	}
 	return true, nil
 }
 
-// Transfer from CC to Bank
+// Bank check in
 func BankTransfer() (bool, error) {
 	return true, nil
 }
 
-// Sync Bitcoin account with Bank and sync Blockchain
+// Bitcoin check in
 func BitcoinSync() (bool, error) {
 	return true, nil
 }
@@ -54,7 +64,7 @@ func copyFileContents(src, dst string) (err error) {
 		return
 	}
 	defer in.Close()
-	out, err := os.Create(dst)
+	out, err := CreateFile(dst)
 	if err != nil {
 		return
 	}
@@ -65,8 +75,17 @@ func copyFileContents(src, dst string) (err error) {
 		}
 	}()
 	if _, err = io.Copy(out, in); err != nil {
+
 		return
 	}
+	_ = out.Chmod(0600)
+
 	err = out.Sync()
+
+
 	return
+}
+
+func CreateFile(name string) (*os.File, error) {
+   		return os.OpenFile(name, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
 }
