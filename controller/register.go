@@ -32,8 +32,10 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 
 	// Prevent brute force login attempts by not hitting MySQL and pretending like it was invalid :-)
 	if sess.Values["register_attempt"] != nil && sess.Values["register_attempt"].(int) >= 5 {
+		sess.AddFlash(view.Flash{"Please try again later.", view.FlashError})
+		sess.Save(r, w)
 		log.Println("Brute force register prevented")
-		http.Redirect(w, r, "/register", http.StatusFound)
+		http.Redirect(w, r, "/", http.StatusFound)
 		return
 	}
 
