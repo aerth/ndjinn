@@ -5,7 +5,7 @@
 	<div class="page-header">
 		<h1>Hello, {{.nickname}}</h1>
 	</div>
-	<p>Dashboard. You are a {{.LoginStatus}} member. {{.MembershipLevel}}</p>
+	<p>Dashboard. You are a PAID member. {{.MembershipLevel}}</p>
 	<div class="medium-4 columns">
 		<h3>New Listing</h3>
 	<form method="post" action="/api">
@@ -17,7 +17,7 @@
 		<input type="submit" class="button">
 	</form>
 </div>
-	<!-- <div class="medium-4 columns">
+	<div class="medium-4 columns">
 		<h3>Edit Listing</h3>
 	<form method="post" action="/api">
 		<input id="email" name="email">
@@ -27,41 +27,30 @@
 		<textarea id="c" name="c"></textarea>
 		<input type="submit" class="button">
 	</form>
-</div> -->
+</div>
+<div id="links">OK</div>
 
 <div class="medium-4 columns">
 
-<h2>Modals</h2>
-<div id="links"></div>
+<h2>AJAX</h2>
 
-<p><a data-open="exampleModal2">Click me for a modal</a></p>
+		<div id="ajaxTest" class="reveal">
 
-<!-- This is the first modal -->
-<div class="reveal" id="exampleModal2" data-reveal>
-  <h1>Awesome!</h1>
-  <p class="lead">I have another modal inside of me!</p>
-  <a class="button" data-open="exampleModal3">Click me for another modal!</a>
-  <button class="close-button" data-close aria-label="Close reveal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+		<button class="close-button" data-close aria-label="Close reveal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		Welcome.
+	</div>
 
-<!-- This is the nested modal -->
-<div class="reveal" id="exampleModal3" data-reveal>
-  <h2>ANOTHER MODAL!!!</h2>
-  <button class="close-button" data-close aria-label="Close reveal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+<a href="#" class="button" data-reveal-id="ajaxTest">Click Me For A Modal</a>
 
-<p><a data-open="exampleModal3">Click me for another modal</a></p>
 
 </div>
 
 <div class="medium-4 columns">
 
 <h2>Become a member</h2>
-<p><a href="/checkout" class="button">$10</a></p>
+<p><a href="/checkout">$10</a></p>
 
 
 </div>
@@ -92,7 +81,7 @@ setInterval(function(){
 var timeout = setInterval(reloadChat, 5000);
 function reloadChat () {
 
-     $('#links').load('/dashboard/async');
+     $('#links').load('/dashboard/async/newlisting');
 }
 </script>
 
