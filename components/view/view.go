@@ -130,6 +130,13 @@ func New(req *http.Request) *View {
 	if sess.Values["id"] != nil {
 		v.Vars["LoginStatus"] = "auth"
 	}
+	if sess.Values["email"] != nil {
+		v.Vars["Email"] = sess.Values["email"]
+	}
+	if sess.Values["nickname"] != nil {
+		v.Vars["Nickname"] = sess.Values["nickname"]
+	}
+
 
 	return v
 }

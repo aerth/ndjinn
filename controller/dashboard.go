@@ -12,22 +12,23 @@ import (
 // Displays the About page
 func DashboardGET(w http.ResponseWriter, r *http.Request) {
 	// Display the view
-	session := session.Instance(r)
-	if session.Values["id"] != nil {
+	sess := session.Instance(r)
+	if sess.Values["id"] != nil {
 		// Flash Auth Announcement
 		//	session.AddFlash(view.Flash{"Almost!", view.FlashError})
 
 		v := view.New(r)
 		v.Name = "dashboard/index"
 
-		v.Vars["nickname"] = session.Values["nickname"]
-		v.Vars["email"] = session.Values["email"]
-		v.Vars["token"] = csrfbanana.Token(w, r, session)
+		v.Vars["nickname"] = sess.Values["nickname"]
+		v.Vars["email"] = sess.Values["email"]
+		v.Vars["token"] = csrfbanana.Token(w, r, sess)
+		sess.Save(r, w)
 		v.Render(w)
 
 	} else {
 		// Flash Anon Announcement
-		session.AddFlash(view.Flash{"Almost!", view.FlashError})
+		sess.AddFlash(view.Flash{"Almost!", view.FlashError})
 
 		// Display the view
 		//
@@ -54,7 +55,7 @@ func DashboardAsyncGET(w http.ResponseWriter, r *http.Request) {
 			sess.Save(r, w)
 			return
 		}
-	
+
 return
 }
 
@@ -77,6 +78,8 @@ return
 
 // Displays the About page
 func MemberDashboardGET(w http.ResponseWriter, r *http.Request) {
+		sess := session.Instance(r)
+	sess.Save(r, w)
 	// Display the view
 	v := view.New(r)
 	v.Name = "dashboard/members/index"

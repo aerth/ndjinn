@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/aerth/ndjinn/components/checkout"
 	"github.com/aerth/ndjinn/components/session"
+	"github.com/aerth/ndjinn/model"
 	"github.com/aerth/ndjinn/components/view"
 //	"github.com/aerth/ndjinn/model"
 	"fmt"
@@ -279,9 +280,30 @@ func CheckoutProcess(w http.ResponseWriter, r *http.Request) {
 	sess.AddFlash(view.Flash{"Thank you for being a valued member.", view.FlashNotice})
 	sess.Save(r, w) // Ensure you save the session after making a change to it
 
-	fmt.Println("GOT PAID")
+	fmt.Println("GOT PAID *********")
 
 	v.Render(w)
 
 	return
+}
+
+func PromoteUser(w http.ResponseWriter, r *http.Request) {
+	//now := time.Now()
+		sess := session.Instance(r)
+
+		email := sess.Values["email"]
+	 	user, err := model.UserByEmail(email.(string))
+		if err != nil {
+			log.Println("line 297")
+		}
+	//	var membership int = 4
+		ex := model.UserPromote(user)
+		// Will only error if there is a problem with the query
+		if ex != nil {}
+
+			sess.Save(r, w)
+				v := view.New(r)
+		v.Name = "dashboard/members"
+	v.Render(w)
+
 }

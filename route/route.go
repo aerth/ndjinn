@@ -106,6 +106,11 @@ func routes() *httprouter.Router {
 	r.GET("/dashboard", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.DashboardGET)))
+
+	// Dashboard
+	r.GET("/promote", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(controller.PromoteUser)))
 	// Dashboard
 	r.GET("/dashboard/paid", hr.Handler(alice.
 		New(acl.AllowPaid).

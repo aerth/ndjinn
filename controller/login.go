@@ -92,6 +92,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 			sess.Values["id"] = result.ID()
 			sess.Values["email"] = email
 			sess.Values["nickname"] = result.NickName
+			sess.Values["membership"] = result.MembershipLevel
 
 			sess.Save(r, w)
 			http.Redirect(w, r, "/dashboard", http.StatusFound)

@@ -23,7 +23,7 @@ import (
 )
 
 var t0 = time.Now()
-
+var Globalmessage = make(chan string, 3)
 // Version
 func Version() string {
 	return "ndjinn v0.2"
@@ -148,13 +148,17 @@ fmt.Printf("Boot: Started (%s)\n",time.Now().Format("2006-01-02 15:04:05"))
 	}()
 
 
+
 	// Test push notification (for site-wide announcements to all online users)
 	go func() {
 		for {
+
 			amt := time.Duration(rand.Intn(250))
 			time.Sleep(time.Second * amt)
+
 			log.Println("Info: Pushing notification to all online users ")
-			session.NotifyUsers("Breaking News: hello world.")
+			msg := <-Globalmessage
+			if msg != "" {session.NotifyUsers(msg)}
 		}
 	}()
 

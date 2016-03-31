@@ -41,9 +41,6 @@ func Empty(sess *sessions.Session) {
 	}
 }
 
-func (s *Session) NotifyAll(message string){
-
-}
 func NotifyUsers(message string){
 // Do the real notify
 
