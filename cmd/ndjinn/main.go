@@ -51,23 +51,9 @@ func main() {
 	// Print Version Info
 	fmt.Println(Version())
 
-	// Help Mode
-	// if len(os.Args) > 1 {
-	//
-	// 			if os.Args[1] == "-V" || os.Args[1] == "--version" {
-	// 			os.Exit(0)
-	// 			}else	if os.Args[1] == "-h" || os.Args[1] == "--help" {
-	// 			fmt.Println(usage)
-	// 			os.Exit(0)
-	// 			}else{
-	// 			fmt.Sprintf("Not a valid command. Try %s", os.Args[0] )
-	// 			os.Exit(0)
-	// 			}
-	// }
-	// Help Mode
+	// Help Mode and bunk options
 	if len(os.Args) > 1 {
 			switch os.Args[1] {
-
 				case "-V", "--version": os.Exit(0);
 				case "-h", "--help": fmt.Println(usage);os.Exit(0)
 				case "-v", "--verbose": break;
