@@ -88,6 +88,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 		} else {
 			// Login successfully
 			session.Empty(sess)
+			log.Println("Login successful!")
 			sess.AddFlash(view.Flash{"Login successful!", view.FlashSuccess})
 			sess.Values["id"] = result.ID()
 			sess.Values["email"] = email

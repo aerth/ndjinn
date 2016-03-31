@@ -46,6 +46,13 @@ func ApiPOST(w http.ResponseWriter, r *http.Request) {
 	// Edit Listing Form Entry
 	case "editListing" <= r.FormValue("request"):
 		fmt.Println("Edit Listing!!!")
+	case "promote" <= r.FormValue("email"):
+		fmt.Println("Promoting "+r.FormValue("email"))
+
+
+
+
+
 
 	}
 	// All direct back to dashboard.

@@ -22,6 +22,12 @@ import (
 	"github.com/aerth/ndjinn/route"
 )
 
+var usage string = `
+
+
+									oh wow.
+`//`
+
 var t0 = time.Now()
 var Globalmessage = make(chan string, 3)
 // Version
@@ -46,9 +52,27 @@ func main() {
 	fmt.Println(Version())
 
 	// Help Mode
+	// if len(os.Args) > 1 {
+	//
+	// 			if os.Args[1] == "-V" || os.Args[1] == "--version" {
+	// 			os.Exit(0)
+	// 			}else	if os.Args[1] == "-h" || os.Args[1] == "--help" {
+	// 			fmt.Println(usage)
+	// 			os.Exit(0)
+	// 			}else{
+	// 			fmt.Sprintf("Not a valid command. Try %s", os.Args[0] )
+	// 			os.Exit(0)
+	// 			}
+	// }
+	// Help Mode
 	if len(os.Args) > 1 {
-		fmt.Println("Usage:	Coming Soon")
-		os.Exit(0)
+			switch os.Args[1] {
+
+				case "-V", "--version": os.Exit(0);
+				case "-h", "--help": fmt.Println(usage);os.Exit(0)
+				case "-v", "--verbose": break;
+				default: fmt.Printf("\nNot a valid command. Try %s\n", os.Args[0] );os.Exit(0)
+			}
 	}
 
 fmt.Printf("Boot: Started (%s)\n",time.Now().Format("2006-01-02 15:04:05"))
@@ -152,13 +176,9 @@ fmt.Printf("Boot: Started (%s)\n",time.Now().Format("2006-01-02 15:04:05"))
 	// Test push notification (for site-wide announcements to all online users)
 	go func() {
 		for {
+				time.Sleep(1 * time.Minute)
+				fmt.Println("Gopher")
 
-			amt := time.Duration(rand.Intn(250))
-			time.Sleep(time.Second * amt)
-
-			log.Println("Info: Pushing notification to all online users ")
-			msg := <-Globalmessage
-			if msg != "" {session.NotifyUsers(msg)}
 		}
 	}()
 
@@ -199,9 +219,12 @@ fmt.Printf("Boot: Started (%s)\n",time.Now().Format("2006-01-02 15:04:05"))
 
 	}()
 	fmt.Printf("Boot: Complete (%s)\n",time.Now().Format("2006-01-02 15:04:05"))
+
+if len(os.Args) == 1 {
 	if !InitLog() {
 		panic("error")
 	}
+}
 	// Start the listener
 	server.Run(route.LoadHTTP(), route.LoadHTTPS(), config.Server)
 }

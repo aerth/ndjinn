@@ -13,6 +13,10 @@ import (
 func DashboardGET(w http.ResponseWriter, r *http.Request) {
 	// Display the view
 	sess := session.Instance(r)
+	if sess.Values["membership"] == 1 {
+		http.Redirect(w, r, "/dashboard/members", http.StatusFound)
+		return
+	}
 	if sess.Values["id"] != nil {
 		// Flash Auth Announcement
 		//	session.AddFlash(view.Flash{"Almost!", view.FlashError})
