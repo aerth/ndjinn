@@ -115,10 +115,24 @@ func routes() *httprouter.Router {
 	r.GET("/dashboard/paid", hr.Handler(alice.
 		New(acl.AllowPaid).
 		ThenFunc(controller.MemberDashboardGET)))
-	// Dashboard
+
+
+
+	// API helps dashboard, and can be used to connect other things later on since we are using it.
 	r.POST("/api", hr.Handler(alice.
-		New().
+		New(acl.AllowAPI).
 		ThenFunc(controller.ApiPOST)))
+
+
+
+
+	// API helps dashboard, and can be used to connect other things later on since we are using it.
+	r.GET("/api", hr.Handler(alice.
+		New(acl.AllowAPI).
+		ThenFunc(controller.ApiPOST)))
+
+
+
 
 	// Enable Pprof
 	r.GET("/debug/pprof/*pprof", hr.Handler(alice.

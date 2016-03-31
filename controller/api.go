@@ -9,20 +9,28 @@ import (
 	"net/http"
 )
 
+import "time"
+// No JSON yet :D
 func ApiPOST(w http.ResponseWriter, r *http.Request) {
 	sess := session.Instance(r)
 	if sess.Values["id"] == nil {
 		log.Println("Bad API Request.")
 		http.Redirect(w, r, "/login", http.StatusFound)
 		sess.Save(r, w)
+		return
 	}
 	err := r.ParseForm()
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	log.Println("API request:")
+
+	// DEBUG
+	log.Println("POST API request:")
 	log.Println(r.Form)
+	//
+
+
 
 	email := r.FormValue("email")
 	phone := r.FormValue("phone")
@@ -46,16 +54,27 @@ func ApiPOST(w http.ResponseWriter, r *http.Request) {
 	// Edit Listing Form Entry
 	case "editListing" <= r.FormValue("request"):
 		fmt.Println("Edit Listing!!!")
-	case "promote" <= r.FormValue("email"):
+
+
+	case "promote" <= r.FormValue("request"):
 		fmt.Println("Promoting "+r.FormValue("email"))
-
-
-
-
-
+		user, err := model.UserByEmail(r.FormValue("email"))
+		if err != nil {
+			return
+		}
+		model.UserPromote(user)
+	default: fmt.Println("Bunk API Request.")
 
 	}
 	// All direct back to dashboard.
 	http.Redirect(w, r, "/dashboard", http.StatusFound)
 	return
+}
+
+func ApiGET(w http.ResponseWriter, r *http.Request) {
+	nowtime := time.Now()
+	now := nowtime.String()
+	// output json status here
+	fmt.Fprintf(w, `{"status":"on","time":"`+now+`" }`)
+return
 }
