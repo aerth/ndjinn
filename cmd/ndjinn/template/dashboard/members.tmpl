@@ -1,0 +1,92 @@
+{{define "title"}}{{.GlobalSiteName}}{{end}}
+{{define "head"}}{{end}}
+{{define "content"}}
+<div class="container">
+	<div class="page-header">
+		<h1>Hello, {{.nickname}}</h1>
+	</div>
+
+	<p>Dashboard. You are a PAID member. {{.membership}}</p>
+	<p>Your API key is {{.userapikey}}</p>
+	<div class="medium-4 columns">
+		<h3>New Listing</h3>
+	<form method="post" action="/api">
+		<input id="email" name="email" placeholder="{{.Email}}">
+		<input id="phone" name="phone" placeholder="phone">
+		<input type="hidden" name="token" value="{{.token}}">
+		<input type="hidden" name="request" value="newListing">
+		<textarea id="c" name="c">What makes ___ _____</textarea>
+		<input type="submit" class="button">
+	</form>
+</div>
+	<div class="medium-4 columns">
+		<h3>Do things</h3>
+	<form method="post" action="/api">
+		<input id="email" name="email">
+		<input id="phone" name="phone">
+		<input type="hidden" name="token" value="{{.token}}">
+		<input type="hidden" name="request" value="editListing">
+		<textarea id="c" name="c"></textarea>
+		<input type="submit" class="button">
+	</form>
+</div>
+
+<div id="links"></div>
+
+<div class="medium-4 columns">
+
+<h2>AJAX</h2>
+
+		<div id="ajaxTest" class="reveal">
+
+		<button class="close-button" data-close aria-label="Close reveal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		Welcome.
+	</div>
+
+<a href="#" class="button" data-reveal-id="ajaxTest">Click Me For A Modal</a>
+
+
+</div>
+
+<div class="medium-4 columns">
+
+<h2>Become a member</h2>
+<p><a href="/checkout">$10</a></p>
+
+
+</div>
+
+
+	{{template "footer" .}}
+</div>
+{{end}}
+{{define "foot"}}
+<!--
+<script>
+
+function loadlink(){
+    $('#links').load('/dashboard/async/newlisting',function () {
+         $(this).unwrap();
+    });
+}
+
+loadlink(); // This will run on page load
+setInterval(function(){
+    loadlink() // this will run after every 5 seconds
+}, 5000);
+
+</script> -->
+
+<script language="javascript" type="text/javascript">
+
+var timeout = setInterval(reloadChat, 5000);
+function reloadChat () {
+
+     $('#links').load('/dashboard/async/newlisting');
+}
+</script>
+
+
+{{end}}
