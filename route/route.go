@@ -116,24 +116,23 @@ func routes() *httprouter.Router {
 		New(acl.AllowPaid).
 		ThenFunc(controller.MemberDashboardGET)))
 
-
 	// API Post requests
 	r.POST("/api", hr.Handler(alice.
 		New(acl.AllowAPI).
-		ThenFunc(controller.ApiPOST)))
+		ThenFunc(controller.APIPost)))
 
 	// Status / Ping Pong x3
 	r.GET("/status", hr.Handler(alice.
 		New().
-		ThenFunc(controller.ApiStatusGET)))
+		ThenFunc(controller.APIStatusGet)))
 	// Status / Ping Pong
 	r.GET("/ping", hr.Handler(alice.
 		New().
-		ThenFunc(controller.ApiStatusGET)))
+		ThenFunc(controller.APIStatusGet)))
 	// Status / Ping Pong
 	r.GET("/api", hr.Handler(alice.
 		New(acl.AllowAPI).
-		ThenFunc(controller.ApiStatusGET)))
+		ThenFunc(controller.APIStatusGet)))
 
 	// Enable Pprof
 	r.GET("/debug/pprof/*pprof", hr.Handler(alice.

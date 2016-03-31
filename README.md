@@ -1,14 +1,14 @@
 # ndjinn
 
-Very much work in progress.
+**Very much work in progress.**
 
-This was created using `josephspurrier/gowebapp` skeleton.
+Notable changes to the `josephspurrier/gowebapp` skeleton would be the directory structure and adding a controller for API requests.
 
-Notable changes to the skeleton would be the directory structure and adding a controller for API requests. Also I added an experimental maintainance routine and converted the flashes to use Zurb Foundation.
+Also I added an experimental maintainance routine and converted the flashes to use Zurb Foundation.
 
 Visitor can sign up, pay membership dues, access a dashboard.
 
-Payments are going through PayPal for now. Will add Bitcoin and maybe another gateway as well.
+Payments are going through PayPal for now. Future: Will add Bitcoin and maybe another gateway as well.
 
 Dashboard contains forms to manipulate the BoltDB, like adding "listings" or "messages".
 
@@ -16,7 +16,7 @@ Dashboard contains forms to manipulate the BoltDB, like adding "listings" or "me
 
   * ~~checkout bumps membership level to "paid"~~
   * ~~"paid" members see their own template page dashboard/members~~
-  * Use a DB
+  * Use a DB for things
 
 
 ## Overview
