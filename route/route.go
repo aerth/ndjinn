@@ -108,7 +108,7 @@ func routes() *httprouter.Router {
 		ThenFunc(controller.DashboardGET)))
 
 	// Dashboard
-	r.GET("/promote", hr.Handler(alice.
+	r.GET("/promote/{user}", hr.Handler(alice.
 		New(acl.DisallowAnon).
 		ThenFunc(controller.PromoteUser)))
 	// Dashboard
@@ -117,22 +117,23 @@ func routes() *httprouter.Router {
 		ThenFunc(controller.MemberDashboardGET)))
 
 
-
-	// API helps dashboard, and can be used to connect other things later on since we are using it.
+	// API Post requests
 	r.POST("/api", hr.Handler(alice.
 		New(acl.AllowAPI).
 		ThenFunc(controller.ApiPOST)))
 
-
-
-
-	// API helps dashboard, and can be used to connect other things later on since we are using it.
+	// Status / Ping Pong x3
+	r.GET("/status", hr.Handler(alice.
+		New().
+		ThenFunc(controller.ApiStatusGET)))
+	// Status / Ping Pong
+	r.GET("/ping", hr.Handler(alice.
+		New().
+		ThenFunc(controller.ApiStatusGET)))
+	// Status / Ping Pong
 	r.GET("/api", hr.Handler(alice.
 		New(acl.AllowAPI).
-		ThenFunc(controller.ApiPOST)))
-
-
-
+		ThenFunc(controller.ApiStatusGET)))
 
 	// Enable Pprof
 	r.GET("/debug/pprof/*pprof", hr.Handler(alice.

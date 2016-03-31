@@ -1,15 +1,18 @@
 package controller
 
 import (
-	"github.com/aerth/ndjinn/components/session"
-	"github.com/aerth/ndjinn/components/view"
-	"github.com/aerth/ndjinn/model"
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/aerth/ndjinn/components/session"
+	"github.com/aerth/ndjinn/components/view"
+	"github.com/aerth/ndjinn/model"
+	"github.com/microcosm-cc/bluemonday"
 )
 
 import "time"
+
 // No JSON yet :D
 func ApiPOST(w http.ResponseWriter, r *http.Request) {
 	sess := session.Instance(r)
@@ -29,8 +32,6 @@ func ApiPOST(w http.ResponseWriter, r *http.Request) {
 	log.Println("POST API request:")
 	log.Println(r.Form)
 	//
-
-
 
 	email := r.FormValue("email")
 	phone := r.FormValue("phone")
@@ -55,15 +56,15 @@ func ApiPOST(w http.ResponseWriter, r *http.Request) {
 	case "editListing" <= r.FormValue("request"):
 		fmt.Println("Edit Listing!!!")
 
-
 	case "promote" <= r.FormValue("request"):
-		fmt.Println("Promoting "+r.FormValue("email"))
+		fmt.Println("Promoting " + r.FormValue("email"))
 		user, err := model.UserByEmail(r.FormValue("email"))
 		if err != nil {
 			return
 		}
 		model.UserPromote(user)
-	default: fmt.Println("Bunk API Request.")
+	default:
+		fmt.Println("Bunk API Request.")
 
 	}
 	// All direct back to dashboard.
@@ -76,5 +77,15 @@ func ApiGET(w http.ResponseWriter, r *http.Request) {
 	now := nowtime.String()
 	// output json status here
 	fmt.Fprintf(w, `{"status":"on","time":"`+now+`" }`)
-return
+	return
+}
+
+func ApiStatusGET(w http.ResponseWriter, r *http.Request) {
+	nowtime := time.Now()
+	now := nowtime.String()
+	p := bluemonday.UGCPolicy()
+	useragent := p.Sanitize(r.UserAgent())
+	// output json status here
+	fmt.Fprintf(w, `{"ip":"`+r.RemoteAddr+`","user-agent":"`+useragent+`","time":"`+now+`" }`)
+	return
 }

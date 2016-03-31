@@ -13,14 +13,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	session := session.Instance(r)
 
 	if session.Values["id"] != nil {
-		// Flash Auth Announcement
-
-		// Display the view
-		v := view.New(r)
-
-		v.Name = "index/auth"
-		v.Vars["nickname"] = session.Values["nickname"]
-		v.Render(w)
+		http.Redirect(w, r, "/dashboard", http.StatusFound)
 	} else {
 
 		// Flash Anon Announcement
