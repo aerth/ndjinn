@@ -76,6 +76,7 @@ func ApiGET(w http.ResponseWriter, r *http.Request) {
 	nowtime := time.Now()
 	now := nowtime.String()
 	// output json status here
+	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, `{"status":"on","time":"`+now+`" }`)
 	return
 }
@@ -86,6 +87,12 @@ func ApiStatusGET(w http.ResponseWriter, r *http.Request) {
 	p := bluemonday.UGCPolicy()
 	useragent := p.Sanitize(r.UserAgent())
 	// output json status here
+	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, `{"ip":"`+r.RemoteAddr+`","user-agent":"`+useragent+`","time":"`+now+`" }`)
 	return
+}
+
+func JsonReplyEve(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	fmt.Fprint(w, JsonResponse{"name": "Eve", "age": 30, "job": "CFO", "success": true})
 }
