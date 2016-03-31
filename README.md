@@ -14,10 +14,10 @@ Dashboard contains forms to manipulate the BoltDB, like adding "listings" or "me
 
 ## Todo
 
-  * successful checkout bumps membership level to "paid"
-  * "paid" members see additional dashboard buttons
-  *
-  *
+  * ~~checkout bumps membership level to "paid"~~
+  * ~~"paid" members see their own template page dashboard/members~~
+  * Use a DB
+
 
 ## Overview
 
