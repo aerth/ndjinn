@@ -3,9 +3,9 @@ package controller
 import (
 	"github.com/aerth/ndjinn/components/checkout"
 	"github.com/aerth/ndjinn/components/session"
-	"github.com/aerth/ndjinn/model"
 	"github.com/aerth/ndjinn/components/view"
-//	"github.com/aerth/ndjinn/model"
+	"github.com/aerth/ndjinn/model"
+	//	"github.com/aerth/ndjinn/model"
 	"fmt"
 	"log"
 	"net/http"
@@ -18,8 +18,7 @@ import (
 )
 
 var (
-	z          checkout.CheckoutInfo
-	newAccount bool = true
+	z checkout.CheckoutInfo
 )
 
 func CheckoutGETOLD(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +43,7 @@ func CheckoutGET(w http.ResponseWriter, r *http.Request) {
 	now := time.Now()
 
 	nowtime := now.Format("Mon, 2 Jan 2006 15:04:05 -0700")
-		v := view.New(r)
+	v := view.New(r)
 	sess := session.Instance(r)
 	sess.Save(r, w) // Ensure you save the session after making a change to it
 
@@ -109,8 +108,8 @@ func CheckoutGET(w http.ResponseWriter, r *http.Request) {
 
 	//http.Redirect(w, r, paymentResult.Links[1].Href, 302)
 	if len(paymentResult.Links) > 2 {
-	fmt.Fprintf(w, "<!DOCTYPE html><html><a href=\""+paymentResult.Links[1].Href+"\">Click here to use PayPal ($ 10)</a></html>")
-	log.Println("Redirecting " + r.RemoteAddr + paymentResult.ID + paymentResult.Links[1].Href)
+		fmt.Fprintf(w, "<!DOCTYPE html><html><a href=\""+paymentResult.Links[1].Href+"\">Click here to use PayPal ($ 10)</a></html>")
+		log.Println("Redirecting " + r.RemoteAddr + paymentResult.ID + paymentResult.Links[1].Href)
 	}
 	return
 }
@@ -289,21 +288,22 @@ func CheckoutProcess(w http.ResponseWriter, r *http.Request) {
 
 func PromoteUser(w http.ResponseWriter, r *http.Request) {
 	//now := time.Now()
-		sess := session.Instance(r)
+	sess := session.Instance(r)
 
-		email := sess.Values["email"]
-	 	user, err := model.UserByEmail(email.(string))
-		if err != nil {
-			log.Println("line 297")
-		}
+	email := sess.Values["email"]
+	user, err := model.UserByEmail(email.(string))
+	if err != nil {
+		log.Println("line 297")
+	}
 	//	var membership int = 4
-		ex := model.UserPromote(user)
-		// Will only error if there is a problem with the query
-		if ex != nil {}
+	ex := model.UserPromote(user)
+	// Will only error if there is a problem with the query
+	if ex != nil {
+	}
 
-			sess.Save(r, w)
-				v := view.New(r)
-		v.Name = "dashboard/members"
+	sess.Save(r, w)
+	v := view.New(r)
+	v.Name = "dashboard/members"
 	v.Render(w)
 
 }

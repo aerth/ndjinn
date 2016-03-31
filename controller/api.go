@@ -13,8 +13,8 @@ import (
 
 import "time"
 
-// No JSON yet :D
-func ApiPOST(w http.ResponseWriter, r *http.Request) {
+// APIPost gets called when you hit http://localhost:8080/api with a POST request.
+func APIPost(w http.ResponseWriter, r *http.Request) {
 	sess := session.Instance(r)
 	if sess.Values["id"] == nil {
 		log.Println("Bad API Request.")
@@ -72,7 +72,7 @@ func ApiPOST(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func ApiGET(w http.ResponseWriter, r *http.Request) {
+func APIGet(w http.ResponseWriter, r *http.Request) {
 	nowtime := time.Now()
 	now := nowtime.String()
 	// output json status here
@@ -81,7 +81,7 @@ func ApiGET(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func ApiStatusGET(w http.ResponseWriter, r *http.Request) {
+func APIStatusGet(w http.ResponseWriter, r *http.Request) {
 	nowtime := time.Now()
 	now := nowtime.String()
 	p := bluemonday.UGCPolicy()
@@ -90,9 +90,4 @@ func ApiStatusGET(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, `{"ip":"`+r.RemoteAddr+`","user-agent":"`+useragent+`","time":"`+now+`" }`)
 	return
-}
-
-func JsonReplyEve(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	fmt.Fprint(w, JsonResponse{"name": "Eve", "age": 30, "job": "CFO", "success": true})
 }
