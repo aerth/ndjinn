@@ -3,6 +3,7 @@ package controller
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/aerth/ndjinn/components/passhash"
 	"github.com/aerth/ndjinn/components/recaptcha"
@@ -57,7 +58,7 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 
 	// Get form values
 	nickName := r.FormValue("NickName")
-	membershipLevel := r.FormValue("MembershipLevel")
+	membershipLevel := strconv.Itoa(0)
 	email := r.FormValue("Email")
 	password, errp := passhash.HashString(r.FormValue("GoodPassword"))
 

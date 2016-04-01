@@ -105,6 +105,7 @@ func routes() *httprouter.Router {
 	// Dashboard
 	r.GET("/dashboard", hr.Handler(alice.
 		New(acl.DisallowAnon).
+		//New().
 		ThenFunc(controller.DashboardGET)))
 
 	// Dashboard

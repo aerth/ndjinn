@@ -87,15 +87,18 @@ func Connect(d DatabaseInfo) {
 		if err = Sql.Ping(); err != nil {
 			log.Println("Database Error", err)
 		}
+		fmt.Printf("connected to SQL database...")
 	case TypeBolt:
 		// Connect to Bolt
 		if BoltDB, err = bolt.Open(d.Bolt.Path, 0600, nil); err != nil {
 			log.Println("Bolt Driver Error", err)
+			log.Printf("Connected to Bolt databse")
 		}
 	case TypeMongoDB:
 		// Connect to MongoDB
 		if Mongo, err = mgo.DialWithTimeout(d.MongoDB.URL, 5); err != nil {
 			log.Println("MongoDB Driver Error", err)
+			log.Printf("Connected to MongoDB databse")
 			return
 		}
 

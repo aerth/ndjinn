@@ -2,6 +2,7 @@ package acl
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/aerth/ndjinn/components/session"
@@ -31,6 +32,8 @@ func DisallowAnon(h http.Handler) http.Handler {
 
 		// If user is not authenticated, don't allow them to access the page
 		if sess.Values["id"] == nil {
+			log.Println("empty ssession?")
+			fmt.Println(sess)
 			http.Redirect(w, r, "/login?err=session-not-found", http.StatusFound)
 			return
 		}
@@ -52,7 +55,7 @@ func AllowPaid(h http.Handler) http.Handler {
 		}
 
 		// If user is not authenticated, don't allow them to access the page
-		if sess.Values["membership"] != 2 {
+		if sess.Values["membership"] != 1 {
 			http.Redirect(w, r, "/dashboard", http.StatusFound)
 			return
 		}
@@ -75,7 +78,7 @@ func AllowAPI(h http.Handler) http.Handler {
 		}
 
 		// If user is not authenticated, don't allow them to access the page
-		if sess.Values["membership"] != 1 {
+		if sess.Values["membership"] != 0 {
 			//http.Redirect(w, r, "/login", http.StatusFound)
 			fmt.Println("Bunk API Request.")
 			return

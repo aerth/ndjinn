@@ -1,9 +1,21 @@
 {
 	"Database": {
-		"Type": "Bolt",
+		"Type": "MySQL",
 		"Bolt": {
  			"Path": "database/database.db"
-  		}
+		},
+		"MongoDB": {
+			"URL": "127.0.0.1",
+			"Database": "gowebapp"
+		},
+		"MySQL": {
+			"Username": "root",
+			"Password": "password",
+			"Name": "ndjinn",
+			"Hostname": "127.0.0.1",
+			"Port": 3306,
+			"Parameter": "?parseTime=true"
+}
 
 	},
 	"Email": {
@@ -39,8 +51,12 @@
 		}
 	},
 	"Checkout": {
-		"PayPalC": "Changeme",
-		"PayPalK": "Secret"
+		"PayPalC": "changeme",
+		"PayPalK": "changeme"
+	},
+	"Admin": {
+		"adminemail": "test@example.com",
+		"mkpasswd": "GbzWb62aHiC4Y"
 	},
 	"Template": {
 		"Root": "base",
@@ -50,7 +66,7 @@
 		]
 	},
 	"View": {
-		"GlobalSiteName": "ndjinn",
+		"GlobalSiteName": "TESTINGZONE",
 		"BaseURI": "http://localhost:8080/",
 		"Extension": "tmpl",
 		"Folder": "template",

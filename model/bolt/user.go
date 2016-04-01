@@ -16,7 +16,7 @@ import (
 // User table contains the information for each user
 type User struct {
 	ObjectId        bson.ObjectId `bson:"_id"`
-	NickName        string        `db:"NickName" bson:"NickName"`
+	NickName        string        `db:"nickname" bson:"nickname"`
 	MembershipLevel string        `db:"membershiplevel" bson:"membershiplevel"`
 	Email           string        `db:"email" bson:"email"`
 	Password        string        `db:"password" bson:"password"`

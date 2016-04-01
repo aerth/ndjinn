@@ -129,13 +129,14 @@ func New(req *http.Request) *View {
 
 	// Set the LoginStatus to auth if the user is logged in
 	if sess.Values["id"] != nil {
+		v.Vars["id"] = sess.Values["id"]
 		v.Vars["LoginStatus"] = "auth"
 	}
-	if sess.Values["Email"] != nil {
+	if sess.Values["email"] != nil {
 		v.Vars["Email"] = sess.Values["email"]
 	}
-	if sess.Values["NickName"] != nil {
-		v.Vars["Nickname"] = sess.Values["NickName"]
+	if sess.Values["nickname"] != nil {
+		v.Vars["NickName"] = sess.Values["nickname"]
 	}
 
 	return v

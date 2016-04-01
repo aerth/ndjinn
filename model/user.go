@@ -30,7 +30,7 @@ const (
 type User struct {
 	ObjectId        bson.ObjectId   `bson:"_id"`
 	Id              uint32          `db:"id" bson:"id,omitempty"` // Don't use Id, use ID() instead for consistency with MongoDB
-	NickName        string          `db:"NickName" bson:"NickName"`
+	NickName        string          `db:"nickname" bson:"nickname"`
 	MembershipLevel MembershipLevel `db:"membershiplevel" bson:"membershiplevel"`
 	Email           string          `db:"email" bson:"email"`
 	Password        string          `db:"password" bson:"password"`
@@ -88,7 +88,7 @@ func UserByEmail(email string) (User, error) {
 
 	switch database.ReadConfig().Type {
 	case database.TypeMySQL:
-		err = database.Sql.Get(&result, "SELECT id, password, status_id, NickName FROM user WHERE email = ? LIMIT 1", email)
+		err = database.Sql.Get(&result, "SELECT id, password, status_id, nickname, membershiplevel FROM user WHERE email = ? LIMIT 1", email)
 	case database.TypeMongoDB:
 		if database.CheckConnection() {
 			session := database.Mongo.Copy()
@@ -118,7 +118,7 @@ func UserCreate(NickName, MembershipLevel, email, password string) error {
 
 	switch database.ReadConfig().Type {
 	case database.TypeMySQL:
-		_, err = database.Sql.Exec("INSERT INTO user (NickName, MembershipLevel, email, password) VALUES (?,?,?,?)", NickName,
+		_, err = database.Sql.Exec("INSERT INTO user (id, nickname, membershiplevel, email, password) VALUES (?,?,?,?,?)", "", NickName,
 			MembershipLevel, email, password)
 	case database.TypeMongoDB:
 		if database.CheckConnection() {
@@ -145,7 +145,7 @@ func UserCreate(NickName, MembershipLevel, email, password string) error {
 		user := &User{
 			ObjectId:        bson.NewObjectId(),
 			NickName:        NickName,
-			MembershipLevel: PaidMember,
+			MembershipLevel: NewMember,
 			Email:           email,
 			Password:        password,
 			Status_id:       1,

@@ -13,7 +13,6 @@ import (
 	"github.com/aerth/ndjinn/components/database"
 	"github.com/aerth/ndjinn/components/email"
 	"github.com/aerth/ndjinn/components/jsonconfig"
-	"github.com/aerth/ndjinn/components/maint"
 	"github.com/aerth/ndjinn/components/recaptcha"
 	"github.com/aerth/ndjinn/components/server"
 	"github.com/aerth/ndjinn/components/session"
@@ -117,7 +116,7 @@ func main() {
 	fmt.Printf(" done.\n")
 
 	// Run Maint and Backup
-	_, err := maint.RunSchedule()
+	//_, err := maint.RunSchedule()
 
 	// // // //
 	//
@@ -192,31 +191,31 @@ func main() {
 		go func() {
 			for range c {
 
-				log.Printf("Maint: Starting Maintainance Routine")
-
-				// Database Backup
-				//	_, err := maint.RunSchedule()
-
-				//database.Close()
-				if err != nil {
-					fmt.Println(err)
-				}
-				database.Connect(config.Database)
-				log.Println("Maint: Database Backup completed.")
-
-				_, err = maint.BankTransfer()
-				if err != nil {
-					fmt.Println(err)
-				}
-				// Bank Transfer
-				log.Println("Maint: Bank Transfer completed.")
-
-				// Bitcoin Sync
-				_, err = maint.BitcoinSync()
-				if err != nil {
-					fmt.Println(err)
-				}
-				log.Println("Maint: Bitcoin Sync completed.")
+				// log.Printf("Maint: Starting Maintainance Routine")
+				//
+				// // Database Backup
+				// //	_, err := maint.RunSchedule()
+				//
+				// //database.Close()
+				// if err != nil {
+				// 	fmt.Println(err)
+				// }
+				// database.Connect(config.Database)
+				// log.Println("Maint: Database Backup completed.")
+				//
+				// _, err = maint.BankTransfer()
+				// if err != nil {
+				// 	fmt.Println(err)
+				// }
+				// // Bank Transfer
+				// log.Println("Maint: Bank Transfer completed.")
+				//
+				// // Bitcoin Sync
+				// _, err = maint.BitcoinSync()
+				// if err != nil {
+				// 	fmt.Println(err)
+				// }
+				// log.Println("Maint: Bitcoin Sync completed.")
 
 			}
 		}()
@@ -231,6 +230,8 @@ func main() {
 	}
 	// Start the listener
 	server.Run(route.LoadHTTP(), route.LoadHTTPS(), config.Server)
+	log.Println("Server ded.")
+	os.Exit(1)
 }
 
 // *****************************************************************************

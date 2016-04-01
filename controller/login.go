@@ -32,7 +32,7 @@ func loginAttempt(sess *sessions.Session) {
 func LoginGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
-
+	session.Empty(sess)
 	// Display the view
 	v := view.New(r)
 	v.Name = "login/login"
@@ -66,10 +66,10 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	// Form values
 	email := r.FormValue("email")
 	password := r.FormValue("password")
-
+	log.Println(email)
 	// Get database result
 	result, err := model.UserByEmail(email)
-
+	log.Println(result)
 	// Determine if user exists
 	if err == model.ErrNoResult {
 		loginAttempt(sess)
@@ -84,23 +84,31 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 		if result.Status_id != 1 {
 			// User inactive and display inactive message
 			sess.AddFlash(view.Flash{"Account is inactive so login is disabled.", view.FlashNotice})
+			log.Println("Inactive Account")
 			sess.Save(r, w)
 		} else {
 			// Login successfully
 			session.Empty(sess)
+			log.Println(sess)
 			log.Println("Login successful!")
+			log.Println(sess)
 			sess.AddFlash(view.Flash{"Login successful!", view.FlashSuccess})
 			sess.Values["id"] = result.ID()
-			sess.Values["email"] = email
-			sess.Values["NickName"] = result.NickName
-			sess.Values["membershiplevel"] = result.MembershipLevel
 
+			sess.Values["email"] = email
+			sess.Values["nickname"] = result.NickName
+			sess.Values["membershiplevel"] = result.MembershipLevel
+			log.Println(sess)
+			log.Println("saving session")
 			sess.Save(r, w)
+			log.Println(sess)
+			log.Println("redirecting to dashboard")
 			http.Redirect(w, r, "/dashboard", http.StatusFound)
 			return
 		}
 	} else {
 		loginAttempt(sess)
+		log.Println("Password is incorrect.")
 		sess.AddFlash(view.Flash{"Password is incorrect - Attempt: " + fmt.Sprintf("%v", sess.Values[sessLoginAttempt]), view.FlashWarning})
 		sess.Save(r, w)
 	}

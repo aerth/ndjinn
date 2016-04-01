@@ -16,8 +16,8 @@ import (
 // User table contains the information for each user
 type User struct {
 	Id              uint32    `db:"id"`
-	NickName        string    `db:"NickName"`
-	MembershipLevel string    `db:"MembershipLevel"`
+	NickName        string    `db:"nickname"`
+	MembershipLevel string    `db:"membershiplevel"`
 	Email           string    `db:"email"`
 	Password        string    `db:"password"`
 	Status_id       uint8     `db:"status_id"`
@@ -58,8 +58,8 @@ func standardizeError(err error) error {
 // UserByEmail gets user information from email
 func UserByEmail(email string) (User, error) {
 	result := User{}
-	err := database.Sql.Get(&result, "SELECT id, password, status_id, NickName FROM user WHERE email = ? LIMIT 1", email)
-	return result, err
+	err := database.Sql.Get(&result, "SELECT id, password, status_id, nickname FROM user WHERE email = ? LIMIT 1", email)
+	return result, errqqq
 }
 
 // UserIdByEmail gets user id from email
@@ -71,6 +71,6 @@ func UserIdByEmail(email string) (User, error) {
 
 // UserCreate creates user
 func UserCreate(NickName, MembershipLevel, email, password string) error {
-	_, err := database.Sql.Exec("INSERT INTO user (NickName, MembershipLevel, email, password) VALUES (?,?,?,?)", NickName, MembershipLevel, email, password)
+	_, err := database.Sql.Exec("INSERT INTO user (nickname, membershiplevel, email, password) VALUES (?,?,?,?)", NickName, MembershipLevel, email, password)
 	return err
 }
