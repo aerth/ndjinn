@@ -24,7 +24,7 @@ func DashboardGET(w http.ResponseWriter, r *http.Request) {
 		v := view.New(r)
 		v.Name = "dashboard/index"
 
-		v.Vars["nickname"] = sess.Values["nickname"]
+		v.Vars["NickName"] = sess.Values["NickName"]
 		v.Vars["email"] = sess.Values["email"]
 		v.Vars["token"] = csrfbanana.Token(w, r, sess)
 		sess.Save(r, w)

@@ -92,8 +92,8 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 			sess.AddFlash(view.Flash{"Login successful!", view.FlashSuccess})
 			sess.Values["id"] = result.ID()
 			sess.Values["email"] = email
-			sess.Values["nickname"] = result.NickName
-			sess.Values["membership"] = result.MembershipLevel
+			sess.Values["NickName"] = result.NickName
+			sess.Values["membershiplevel"] = result.MembershipLevel
 
 			sess.Save(r, w)
 			http.Redirect(w, r, "/dashboard", http.StatusFound)
@@ -116,7 +116,6 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	// If user is authenticated
 	if sess.Values["id"] != nil {
 		session.Empty(sess)
-		sess.AddFlash(view.Flash{"Goodbye!", view.FlashNotice})
 		sess.Save(r, w)
 	}
 

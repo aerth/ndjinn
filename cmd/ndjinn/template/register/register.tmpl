@@ -8,21 +8,21 @@
 	</div>
 	<form method="post">
 		<div class="form-group">
-			<label for="nickname">Nick Name</label>
-			<div><input type="text" class="form-control" id="nickname" name="nickname" maxlength="48" placeholder="First Name" value="{{.nickname}}" /></div>
+			<label for="NickName">Nick Name</label>
+			<div><input type="text" class="form-control" id="NickName" name="NickName" maxlength="48" placeholder="First Name" value="{{.NickName}}" /></div>
 		</div>
 
 		<div class="form-group">
 			<label for="email">Email</label>
-			<div><input type="email" class="form-control" id="email" name="email" maxlength="48" placeholder="Email" value="{{.email}}" /></div>
+			<div><input type="email" class="form-control" id="Email" name="Email" maxlength="48" placeholder="Email" value="{{.Email}}" /></div>
 		</div>
 		<div class="form-group">
 			<label for="password">Password</label><div>
-			<input type="password" class="form-control" id="password" name="password" maxlength="48" placeholder="Password" value="{{.password}}" />	</div>
+			<input type="password" class="form-control" id="GoodPassword" name="GoodPassword" maxlength="48" placeholder="Password" value="{{.GoodPassword}}" />	</div>
 		</div>
 		<div class="form-group">
 			<label for="password_verify">Verify Password</label>
-			<div><input type="password" class="form-control" id="password_verify" name="password_verify" maxlength="48" placeholder="Verify Password" value="{{.password}}" /></div>
+			<div><input type="password" class="form-control" id="SameGoodPassword" name="SameGoodPassword" maxlength="48" placeholder="Verify Password" value="{{.SameGoodPassword}}" /></div>
 		</div>
 
 		{{if RECAPTCHA_SITEKEY}}

@@ -30,7 +30,7 @@ const (
 type User struct {
 	ObjectId        bson.ObjectId   `bson:"_id"`
 	Id              uint32          `db:"id" bson:"id,omitempty"` // Don't use Id, use ID() instead for consistency with MongoDB
-	NickName        string          `db:"nickname" bson:"nickname"`
+	NickName        string          `db:"NickName" bson:"NickName"`
 	MembershipLevel MembershipLevel `db:"membershiplevel" bson:"membershiplevel"`
 	Email           string          `db:"email" bson:"email"`
 	Password        string          `db:"password" bson:"password"`

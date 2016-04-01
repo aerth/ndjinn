@@ -11,7 +11,8 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
-  "github.com/GeertJohan/go.rice"
+
+	"github.com/GeertJohan/go.rice"
 	"github.com/aerth/ndjinn/components/session"
 )
 
@@ -130,13 +131,12 @@ func New(req *http.Request) *View {
 	if sess.Values["id"] != nil {
 		v.Vars["LoginStatus"] = "auth"
 	}
-	if sess.Values["email"] != nil {
+	if sess.Values["Email"] != nil {
 		v.Vars["Email"] = sess.Values["email"]
 	}
-	if sess.Values["nickname"] != nil {
-		v.Vars["Nickname"] = sess.Values["nickname"]
+	if sess.Values["NickName"] != nil {
+		v.Vars["Nickname"] = sess.Values["NickName"]
 	}
-
 
 	return v
 }
@@ -385,24 +385,19 @@ func FileTime(name string) (string, error) {
 	return fmt.Sprintf("%v", mtime), nil
 }
 
-
-
-
-
 type TemplateLunchbox struct {
-  box *rice.Box
+	box *rice.Box
 }
 
 func NewTemplateLoader() (*TemplateLunchbox, error) {
-fs := &TemplateLunchbox{}
-  found, err := rice.FindBox("templates")
-  if err != nil {
-    return nil, err
-  }
-  fs.box = found
-  return fs, nil
+	fs := &TemplateLunchbox{}
+	found, err := rice.FindBox("templates")
+	if err != nil {
+		return nil, err
+	}
+	fs.box = found
+	return fs, nil
 }
-
 
 //
 //

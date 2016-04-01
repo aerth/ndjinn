@@ -22,7 +22,7 @@ func RegisterGET(w http.ResponseWriter, r *http.Request) {
 	v.Name = "register/register"
 	v.Vars["token"] = csrfbanana.Token(w, r, sess)
 	// Refill any form fields
-	view.Repopulate([]string{"nickname", "email"}, r.Form, v.Vars)
+	view.Repopulate([]string{"NickName", "Email"}, r.Form, v.Vars)
 	v.Render(w)
 }
 
@@ -40,7 +40,7 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Validate with required fields
-	if validate, missingField := view.Validate(r, []string{"nickname", "email", "password"}); !validate {
+	if validate, missingField := view.Validate(r, []string{"NickName", "Email", "GoodPassword"}); !validate {
 		sess.AddFlash(view.Flash{"Field missing: " + missingField, view.FlashError})
 		sess.Save(r, w)
 		RegisterGET(w, r)
@@ -56,15 +56,15 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get form values
-	nickname := r.FormValue("nickname")
-	MembershipLevel := r.FormValue("MembershipLevel")
-	email := r.FormValue("email")
-	password, errp := passhash.HashString(r.FormValue("password"))
+	nickName := r.FormValue("NickName")
+	membershipLevel := r.FormValue("MembershipLevel")
+	email := r.FormValue("Email")
+	password, errp := passhash.HashString(r.FormValue("GoodPassword"))
 
 	// If password hashing failed
 	if errp != nil {
 		log.Println(errp)
-		sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.", view.FlashError})
+		sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later. Error Code: P67", view.FlashError})
 		sess.Save(r, w)
 		http.Redirect(w, r, "/register", http.StatusFound)
 		return
@@ -74,11 +74,11 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 	_, err := model.UserByEmail(email)
 
 	if err == model.ErrNoResult { // If success (no user exists with that email)
-		ex := model.UserCreate(nickname, MembershipLevel, email, password)
+		ex := model.UserCreate(nickName, membershipLevel, email, password)
 		// Will only error if there is a problem with the query
 		if ex != nil {
 			log.Println(ex)
-			sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.", view.FlashError})
+			sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.  Error Code: Q81", view.FlashError})
 			sess.Save(r, w)
 		} else {
 			sess.AddFlash(view.Flash{"Account created successfully for: " + email, view.FlashSuccess})
@@ -88,7 +88,7 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 		}
 	} else if err != nil { // Catch all other errors
 		log.Println(err)
-		sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.", view.FlashError})
+		sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later. Error Code: 91", view.FlashError})
 		sess.Save(r, w)
 	} else { // Else the user already exists
 		sess.AddFlash(view.Flash{"Account already exists for: " + email, view.FlashError})
