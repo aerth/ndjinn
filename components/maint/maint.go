@@ -26,11 +26,12 @@ func BackupDB() (bool, error) {
 	now.Format(time.UnixDate)
 	nowtime := strings.Replace(now.String(), " ", "", -1)
 	_ = os.Mkdir("backups", 0700)
-	//err := os.Chmod("backups/latest.db", 0700)
-	//if err != nil {
-	//	return false, err
-	//}
-	err := copyFileContents("database/database.db", "backups/latest.db")
+
+	err := os.Chmod("backups/latest.db", 0700)
+	if err != nil && !os.IsNotExist(err) {
+		return false, err
+	}
+	err = copyFileContents("database/database.db", "backups/latest.db")
 	if err != nil {
 		return false, err
 	}
