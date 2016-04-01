@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"math/rand"
 	"log"
+	"math/rand"
 	"os"
 	"runtime"
 	"time"
@@ -20,22 +20,35 @@ import (
 	"github.com/aerth/ndjinn/components/view"
 	"github.com/aerth/ndjinn/components/view/plugin"
 	"github.com/aerth/ndjinn/route"
+	"github.com/inconshreveable/mousetrap"
 )
 
-var usage string = `
+var usage = `
 
 
 									oh wow.
-`//`
+` //`
 
 var t0 = time.Now()
+
+// Globalmessage Channel
 var Globalmessage = make(chan string, 3)
-// Version
+
+// Version is the running version number
 func Version() string {
 	return "ndjinn v0.2"
 }
 
 func init() {
+
+	if runtime.GOOS == "windows" {
+		if ok := mousetrap.StartedByExplorer(); ok {
+			fmt.Println("Don't double-click. You need to open cmd.exe and run it from the command line!")
+			time.Sleep(10 * time.Second)
+			os.Exit(1)
+		}
+
+	}
 	// Verbose logging with file name and line number
 	// log.SetFlags(log.Lshortfile)
 
@@ -53,15 +66,21 @@ func main() {
 
 	// Help Mode and bunk options
 	if len(os.Args) > 1 {
-			switch os.Args[1] {
-				case "-V", "--version": os.Exit(0);
-				case "-h", "--help": fmt.Println(usage);os.Exit(0)
-				case "-v", "--verbose": break;
-				default: fmt.Printf("\nNot a valid command. Try %s\n", os.Args[0] );os.Exit(0)
-			}
+		switch os.Args[1] {
+		case "-V", "--version":
+			os.Exit(0)
+		case "-h", "--help":
+			fmt.Println(usage)
+			os.Exit(0)
+		case "-v", "--verbose":
+			break
+		default:
+			fmt.Printf("\nNot a valid command. Try %s\n", os.Args[0])
+			os.Exit(0)
+		}
 	}
 
-fmt.Printf("Boot: Started (%s)\n",time.Now().Format("2006-01-02 15:04:05"))
+	fmt.Printf("Boot: Started (%s)\n", time.Now().Format("2006-01-02 15:04:05"))
 
 	// Load the configuration file (./config/config.json)
 	fmt.Printf("Boot: Loading config.")
@@ -150,20 +169,18 @@ fmt.Printf("Boot: Started (%s)\n",time.Now().Format("2006-01-02 15:04:05"))
 	// Monitor Uptime
 	go func() {
 		for {
-			amt := time.Duration(rand.Intn(25)+10000)
+			amt := time.Duration(rand.Intn(25) + 10000)
 			time.Sleep(time.Second * amt)
 			t1 := time.Now()
 			log.Println("Info: Running for " + t1.Sub(t0).String())
 		}
 	}()
 
-
-
 	// Test push notification (for site-wide announcements to all online users)
 	go func() {
 		for {
-				time.Sleep(1 * time.Minute)
-				fmt.Println("Gopher")
+			time.Sleep(1 * time.Minute)
+			fmt.Println("Gopher")
 
 		}
 	}()
@@ -204,13 +221,13 @@ fmt.Printf("Boot: Started (%s)\n",time.Now().Format("2006-01-02 15:04:05"))
 		}()
 
 	}()
-	fmt.Printf("Boot: Complete (%s)\n",time.Now().Format("2006-01-02 15:04:05"))
+	fmt.Printf("Boot: Complete (%s)\n", time.Now().Format("2006-01-02 15:04:05"))
 
-if len(os.Args) == 1 {
-	if !InitLog() {
-		panic("error")
+	if len(os.Args) == 1 {
+		if !InitLog() {
+			panic("error")
+		}
 	}
-}
 	// Start the listener
 	server.Run(route.LoadHTTP(), route.LoadHTTPS(), config.Server)
 }
@@ -244,7 +261,7 @@ func InitLog() bool {
 	f, err := os.OpenFile("logs/debug.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0600)
 	if err != nil {
 		log.Printf("error opening file: %v", err)
-		log.Fatal("Hint: touch ./debug.log, or chown/chmod it so that the "+os.Args[0]+" process can access it.")
+		log.Fatal("Hint: touch ./debug.log, or chown/chmod it so that the " + os.Args[0] + " process can access it.")
 		return false
 	}
 	fmt.Println("Switched to log file. Nothing more to see here.")
