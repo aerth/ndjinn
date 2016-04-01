@@ -57,7 +57,7 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 
 	// Get form values
 	nickname := r.FormValue("nickname")
-	last_name := r.FormValue("last_name")
+	MembershipLevel := r.FormValue("MembershipLevel")
 	email := r.FormValue("email")
 	password, errp := passhash.HashString(r.FormValue("password"))
 
@@ -74,7 +74,7 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 	_, err := model.UserByEmail(email)
 
 	if err == model.ErrNoResult { // If success (no user exists with that email)
-		ex := model.UserCreate(nickname, last_name, email, password)
+		ex := model.UserCreate(nickname, MembershipLevel, email, password)
 		// Will only error if there is a problem with the query
 		if ex != nil {
 			log.Println(ex)

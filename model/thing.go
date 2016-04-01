@@ -1,13 +1,15 @@
 package model
 
 import (
-	"github.com/aerth/ndjinn/components/database"
 	"fmt"
 	"time"
+
+	"github.com/aerth/ndjinn/components/database"
 
 	"gopkg.in/mgo.v2/bson"
 )
 
+// Listing is separate from Users. Cool!
 type Listing struct {
 	ObjectId   bson.ObjectId `bson:"_id"`
 	Id         uint32        `db:"id" bson:"id,omitempty"` // Don't use Id, use ID() instead for consistency with MongoDB

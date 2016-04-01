@@ -80,6 +80,7 @@ func main() {
 		}
 	}
 
+	/* Boot sequence inspired by the movies */
 	fmt.Printf("Boot: Started (%s)\n", time.Now().Format("2006-01-02 15:04:05"))
 
 	// Load the configuration file (./config/config.json)
@@ -119,21 +120,21 @@ func main() {
 	_, err := maint.RunSchedule()
 
 	// // // //
-
-	database.Close()
-	if err != nil {
-		fmt.Println(err)
-	}
-	database.Connect(config.Database)
-	fmt.Println("Boot: Database Backup completed.")
-
-	err = os.Mkdir("logs", 0700)
-	if err != nil && err.Error() != "mkdir logs: file exists" {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Boot: Logging requests to ./logs/access.log")
-	fmt.Println("Boot: Other logging at ./logs/debug.log")
+	//
+	// database.Close()
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// database.Connect(config.Database)
+	// fmt.Println("Boot: Database Backup completed.")
+	//
+	// err = os.Mkdir("logs", 0700)
+	// if err != nil && err.Error() != "mkdir logs: file exists" {
+	// 	log.Fatal(err)
+	// }
+	//
+	// fmt.Println("Boot: Logging requests to ./logs/access.log")
+	// fmt.Println("Boot: Other logging at ./logs/debug.log")
 
 	// // // //
 
@@ -194,9 +195,9 @@ func main() {
 				log.Printf("Maint: Starting Maintainance Routine")
 
 				// Database Backup
-				_, err := maint.RunSchedule()
+				//	_, err := maint.RunSchedule()
 
-				database.Close()
+				//database.Close()
 				if err != nil {
 					fmt.Println(err)
 				}

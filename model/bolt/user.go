@@ -1,26 +1,29 @@
 package model
 
 import (
-	"github.com/aerth/ndjinn/components/database"
 	"errors"
-	"fmt"
 	"time"
+
+	"github.com/josephspurrier/gowebapp/shared/database"
 
 	"gopkg.in/mgo.v2/bson"
 )
 
+// *****************************************************************************
+// User
+// *****************************************************************************
+
 // User table contains the information for each user
 type User struct {
 	ObjectId   bson.ObjectId `bson:"_id"`
-	MembershipLevel uint8         `db:"membership" bson:"membership"`
-	NickName string        `db:"nickname" bson:"nickname"`
+	First_name string        `db:"first_name" bson:"first_name"`
+	Last_name  string        `db:"last_name" bson:"last_name"`
 	Email      string        `db:"email" bson:"email"`
 	Password   string        `db:"password" bson:"password"`
 	Status_id  uint8         `db:"status_id" bson:"status_id"`
 	Created_at time.Time     `db:"created_at" bson:"created_at"`
 	Updated_at time.Time     `db:"updated_at" bson:"updated_at"`
 	Deleted    uint8         `db:"deleted" bson:"deleted"`
-
 }
 
 var (
@@ -54,14 +57,14 @@ func UserByEmail(email string) (User, error) {
 }
 
 // UserCreate creates user
-func UserCreate(nickname, last_name, email, password string) error {
+func UserCreate(first_name, last_name, email, password string) error {
 	var err error
 
 	now := time.Now()
 
 	user := &User{
 		ObjectId:   bson.NewObjectId(),
-		NickName: nickname,
+		First_name: first_name,
 		Last_name:  last_name,
 		Email:      email,
 		Password:   password,
@@ -69,36 +72,9 @@ func UserCreate(nickname, last_name, email, password string) error {
 		Created_at: now,
 		Updated_at: now,
 		Deleted:    0,
-		MembershipLevel: 0,
 	}
 
 	err = database.Update("user", user.Email, &user)
-	err = database.Update("user", user.Email, &user)
-	fmt.Println(database.View("user", user.Email, &user))
-	return standardizeError(err)
-}
 
-// UserCreate creates user
-func UserPromote(nickname, last_name, email, password string, createdtime time.Time) error {
-	var err error
-
-	now := time.Now()
-
-	user := &User{
-		ObjectId:   bson.NewObjectId(),
-		NickName: nickname,
-		Last_name:  last_name,
-		Email:      email,
-		Password:   password,
-		Status_id:  1,
-		Created_at: now,
-		Updated_at: now,
-		Deleted:    0,
-		MembershipLevel: 0,
-	}
-
-	err = database.Update("user", user.Email, &user)
-	err = database.Update("user", user.Email, &user)
-	fmt.Println(database.View("user", user.Email, &user))
 	return standardizeError(err)
 }
